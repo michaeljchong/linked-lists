@@ -33,6 +33,17 @@ class LinkedList
     @list.pop
     @list[-1].next_node = nil unless @list.empty?
   end
+
+  def contains?(value)
+    @list.any? { |node| node.value == value }
+  end
+
+  def find(value)
+    @list.each_with_index do |node, idx|
+      return idx if node.value == value
+    end
+    nil
+  end
 end
 
 class Node
@@ -48,4 +59,7 @@ l = LinkedList.new
 l.append(1)
 l.append(2)
 l.prepend(3)
+l.pop
+p l.contains?(1)
+p l.find(3)
 p l
