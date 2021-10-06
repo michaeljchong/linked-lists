@@ -23,8 +23,8 @@ class LinkedList
   def size
     size = 0
     node = @head
-    loop do
-      node ? size += 1 : break
+    until node.nil?
+      size += 1
       node = node.next_node
     end
     size
@@ -49,10 +49,8 @@ class LinkedList
   end
 
   def contains?(value)
-    return if @head.nil?
-
     node = @head
-    size.times do
+    until node.nil?
       return true if node.value == value
 
       node = node.next_node
@@ -61,8 +59,6 @@ class LinkedList
   end
 
   def find(value)
-    return if @head.nil?
-
     node = @head
     size.times do |idx|
       return idx if node.value == value
@@ -73,10 +69,8 @@ class LinkedList
   end
 
   def to_s
-    return if @head.nil?
-
     node = @head
-    size.times do
+    until node.nil?
       print "( #{node.value} ) -> "
       node = node.next_node
     end
