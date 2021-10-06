@@ -45,8 +45,6 @@ class LinkedList
       @head = nil
       @tail = nil
     else
-      node = self.at(self.size - 1)
-      node = nil
       @tail = self.at(self.size - 2)
       @tail.next_node = nil
     end
@@ -104,15 +102,20 @@ class LinkedList
   end
 
   def remove_at(index)
+    if index == self.size - 1 || self.size == 1
+      self.pop
+      return
+    end
+
+    if index == 0
+      @head = @head.next_node
+    end
+
     if index < size
-      if index == size - 1
-        pop
-        @list[-1].next_node = nil
-        return
-      end
-      @list = @list[0...index] + @list[index + 1..-1]
-      @list[index - 1].next_node = @list[index] unless index == 0
-      @list[index].next_node = @list[index + 1]
+      at_index = self.at(index)
+      after_index = at_index.next_node
+      before_index = self.at(index - 1)
+      before_index.next_node = after_index
     end
   end
 end
@@ -139,7 +142,6 @@ l.pop
 p l.contains?(2)
 p l.find(1)
 l.insert_at(5, 1)
-# l.remove_at(2)
+l.remove_at(0)
 p l
 l.to_s
-# p l
