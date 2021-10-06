@@ -7,14 +7,14 @@ class LinkedList
   end
 
   def append(value)
-    new_node = Node.new(value)
+    new_node = Node.new value
     @tail.next_node = new_node if @tail
     @tail = new_node
     @head = new_node unless @head
   end
 
   def prepend(value)
-    new_node = Node.new(value)
+    new_node = Node.new value
     new_node.next_node = @head if @head
     @head = new_node
     @tail = new_node unless @tail
@@ -86,11 +86,20 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    if index <= size
+    if index == 0
+      self.prepend(value)
+      return
+    end
+    if index == self.size
+      self.append(value)
+      return
+    end
+    if index < size
+      at_index = self.at(index)
       new_node = Node.new value
-      @list = @list[0...index].push(new_node) + @list[index..-1]
-      @list[index - 1].next_node = @list[index] unless index == 0
-      @list[index].next_node = index == size - 1 ? nil : @list[index + 1]
+      new_node.next_node = at_index
+      before_index = self.at(index - 1)
+      before_index.next_node = new_node
     end
   end
 
@@ -127,10 +136,10 @@ l.prepend(3)
 # p l.tail
 # p l.at(1)
 l.pop
-p l
 p l.contains?(2)
 p l.find(1)
-# l.insert_at(5, 2)
+l.insert_at(5, 1)
 # l.remove_at(2)
+p l
 l.to_s
 # p l
