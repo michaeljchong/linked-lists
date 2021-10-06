@@ -129,19 +129,21 @@ class Node
   end
 end
 
+# Test cases
 l = LinkedList.new
 l.append(1)
 l.append(2)
 l.prepend(3)
-# p l
-# p l.size
-# p l.head
-# p l.tail
-# p l.at(1)
+l.to_s
+puts "Size: #{l.size}"
+puts "Head: #{l.head.value}"
+puts "Tail: #{l.tail.value}"
+puts "At index 1: #{l.at(1).value}"
 l.pop
-p l.contains?(2)
-p l.find(1)
+l.to_s
+puts "Contains 2? #{l.contains?(2)}"
+puts "Find index of 1: #{l.find(1)}"
 l.insert_at(5, 1)
+l.to_s
 l.remove_at(0)
-p l
 l.to_s
