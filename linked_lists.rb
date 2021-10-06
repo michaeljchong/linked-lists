@@ -24,6 +24,10 @@ class LinkedList
   def tail
     @list[-1]
   end
+
+  def at(index)
+    @list[index]
+  end
 end
 
 class Node
