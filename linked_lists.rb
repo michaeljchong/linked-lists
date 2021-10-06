@@ -22,7 +22,7 @@ class LinkedList
   end
 
   def tail
-
+    @list[-1]
   end
 end
 
