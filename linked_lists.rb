@@ -18,6 +18,10 @@ class LinkedList
   end
 
   def head
+    @list[0]
+  end
+
+  def tail
 
   end
 end
