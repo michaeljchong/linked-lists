@@ -75,8 +75,12 @@ class LinkedList
   end
 
   def to_s
-    @list.each do |node|
+    return if @head.nil?
+
+    node = @head
+    self.size.times do
       print "( #{node.value} ) -> "
+      node = node.next_node
     end
     puts 'nil'
   end
@@ -128,5 +132,5 @@ p l.contains?(2)
 p l.find(1)
 # l.insert_at(5, 2)
 # l.remove_at(2)
-# l.to_s
+l.to_s
 # p l
