@@ -51,6 +51,15 @@ class LinkedList
     end
     puts 'nil'
   end
+
+  def insert_at(value, index)
+    if index < size
+      new_node = Node.new value
+      @list = @list[0...index].push(new_node) + @list[index..-1]
+      @list[index - 1].next_node = @list[index] unless index == 0
+      @list[index].next_node = @list[index + 1] unless index == size - 1
+    end
+  end
 end
 
 class Node
@@ -69,4 +78,6 @@ l.prepend(3)
 l.pop
 p l.contains?(1)
 p l.find(3)
+l.insert_at(5, 0)
 l.to_s
+p l
