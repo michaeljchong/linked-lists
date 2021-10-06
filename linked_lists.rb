@@ -1,41 +1,66 @@
 class LinkedList
+  attr_reader :head, :tail
+
   def initialize
-    @list = []
+    @head = nil
+    @tail = nil
   end
 
   def append(value)
-    @list.push Node.new(value)
-    @list[-2].next_node = @list[-1] if size > 1
+    new_node = Node.new(value)
+    @tail.next_node = new_node if @tail
+    @tail = new_node
+    @head = new_node unless @head
   end
 
   def prepend(value)
-    @list.unshift Node.new(value)
-    @list[0].next_node = @list[1] if size > 1
+    new_node = Node.new(value)
+    new_node.next_node = @head if @head
+    @head = new_node
+    @tail = new_node unless @tail
   end
 
   def size
-    @list.length
-  end
-
-  def head
-    @list[0]
-  end
-
-  def tail
-    @list[-1]
+    size = 0
+    node = @head
+    loop do
+      node ? size += 1 : break
+      node = node.next_node
+    end
+    size
   end
 
   def at(index)
-    @list[index]
+    node = @head
+    if index < self.size
+      index.times { node = node.next_node }
+    end
+    node
   end
 
   def pop
-    @list.pop
-    @list[-1].next_node = nil unless @list.empty?
+    return if @head.nil?
+
+    if self.size == 1
+      @head = nil
+      @tail = nil
+    else
+      node = self.at(self.size - 1)
+      node = nil
+      @tail = self.at(self.size - 2)
+      @tail.next_node = nil
+    end
   end
 
   def contains?(value)
-    @list.any? { |node| node.value == value }
+    return if @head.nil?
+
+    node = @head
+    self.size.times do
+      return true if node.value == value
+      node = node.next_node
+    end
+    false
   end
 
   def find(value)
@@ -53,11 +78,24 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    if index < size
+    if index <= size
       new_node = Node.new value
       @list = @list[0...index].push(new_node) + @list[index..-1]
       @list[index - 1].next_node = @list[index] unless index == 0
-      @list[index].next_node = @list[index + 1] unless index == size - 1
+      @list[index].next_node = index == size - 1 ? nil : @list[index + 1]
+    end
+  end
+
+  def remove_at(index)
+    if index < size
+      if index == size - 1
+        pop
+        @list[-1].next_node = nil
+        return
+      end
+      @list = @list[0...index] + @list[index + 1..-1]
+      @list[index - 1].next_node = @list[index] unless index == 0
+      @list[index].next_node = @list[index + 1]
     end
   end
 end
@@ -75,9 +113,16 @@ l = LinkedList.new
 l.append(1)
 l.append(2)
 l.prepend(3)
+# p l
+# p l.size
+# p l.head
+# p l.tail
+# p l.at(1)
 l.pop
-p l.contains?(1)
-p l.find(3)
-l.insert_at(5, 0)
-l.to_s
 p l
+p l.contains?(2)
+# p l.find(3)
+# l.insert_at(5, 2)
+# l.remove_at(2)
+# l.to_s
+# p l
