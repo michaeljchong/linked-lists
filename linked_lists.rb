@@ -10,14 +10,14 @@ class LinkedList
     new_node = Node.new value
     @tail.next_node = new_node if @tail
     @tail = new_node
-    @head = new_node unless @head
+    @head ||= new_node
   end
 
   def prepend(value)
     new_node = Node.new value
     new_node.next_node = @head if @head
     @head = new_node
-    @tail = new_node unless @tail
+    @tail ||= new_node
   end
 
   def size
@@ -32,20 +32,18 @@ class LinkedList
 
   def at(index)
     node = @head
-    if index < self.size
-      index.times { node = node.next_node }
-    end
+    index.times { node = node.next_node } if index < size
     node
   end
 
   def pop
     return if @head.nil?
 
-    if self.size == 1
+    if size == 1
       @head = nil
       @tail = nil
     else
-      @tail = self.at(self.size - 2)
+      @tail = at(size - 2)
       @tail.next_node = nil
     end
   end
@@ -54,8 +52,9 @@ class LinkedList
     return if @head.nil?
 
     node = @head
-    self.size.times do
+    size.times do
       return true if node.value == value
+
       node = node.next_node
     end
     false
@@ -65,8 +64,9 @@ class LinkedList
     return if @head.nil?
 
     node = @head
-    self.size.times do |idx|
+    size.times do |idx|
       return idx if node.value == value
+
       node = node.next_node
     end
     nil
@@ -76,7 +76,7 @@ class LinkedList
     return if @head.nil?
 
     node = @head
-    self.size.times do
+    size.times do
       print "( #{node.value} ) -> "
       node = node.next_node
     end
@@ -84,39 +84,38 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    if index == 0
-      self.prepend(value)
+    if index.zero?
+      prepend(value)
       return
     end
-    if index == self.size
-      self.append(value)
+    if index == size
+      append(value)
       return
     end
-    if index < size
-      at_index = self.at(index)
-      new_node = Node.new value
-      new_node.next_node = at_index
-      before_index = self.at(index - 1)
-      before_index.next_node = new_node
-    end
+    return unless index < size
+
+    at_index = at(index)
+    new_node = Node.new value
+    new_node.next_node = at_index
+    before_index = at(index - 1)
+    before_index.next_node = new_node
   end
 
   def remove_at(index)
-    if index == self.size - 1 || self.size == 1
-      self.pop
+    if index == size - 1 || size == 1
+      pop
       return
     end
-
-    if index == 0
+    if index.zero?
       @head = @head.next_node
+      return
     end
+    return unless index < size
 
-    if index < size
-      at_index = self.at(index)
-      after_index = at_index.next_node
-      before_index = self.at(index - 1)
-      before_index.next_node = after_index
-    end
+    at_index = at(index)
+    after_index = at_index.next_node
+    before_index = at(index - 1)
+    before_index.next_node = after_index
   end
 end
 
