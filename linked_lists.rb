@@ -28,6 +28,11 @@ class LinkedList
   def at(index)
     @list[index]
   end
+
+  def pop
+    @list.pop
+    @list[-1].next_node = nil unless @list.empty?
+  end
 end
 
 class Node
