@@ -64,8 +64,12 @@ class LinkedList
   end
 
   def find(value)
-    @list.each_with_index do |node, idx|
+    return if @head.nil?
+
+    node = @head
+    self.size.times do |idx|
       return idx if node.value == value
+      node = node.next_node
     end
     nil
   end
@@ -121,7 +125,7 @@ l.prepend(3)
 l.pop
 p l
 p l.contains?(2)
-# p l.find(3)
+p l.find(1)
 # l.insert_at(5, 2)
 # l.remove_at(2)
 # l.to_s
