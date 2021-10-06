@@ -44,6 +44,13 @@ class LinkedList
     end
     nil
   end
+
+  def to_s
+    @list.each do |node|
+      print "( #{node.value} ) -> "
+    end
+    puts 'nil'
+  end
 end
 
 class Node
@@ -62,4 +69,4 @@ l.prepend(3)
 l.pop
 p l.contains?(1)
 p l.find(3)
-p l
+l.to_s
